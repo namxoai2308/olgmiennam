@@ -1,0 +1,609 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --color-primary-blue: #0d47a1; 
+    --color-primary-red: #d32f2f;  
+    --color-teal: #00796b;         
+    --color-main-blue: #2980b9;
+    --text-color-dark: #212121;
+    --text-color-light: #616161;
+    --bg-grey: #f5f5f5;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--text-color-dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+h1, h2, h3 { line-height: 1.2; margin-bottom: 20px; }
+a { text-decoration: none; color: var(--color-main-blue); }
+
+/* ======================================================= */
+/*                       HEADER                            */
+/* ======================================================= */
+
+/* --- 1. HEADER TOP BAR --- */
+.header-top {
+    background-color: var(--bg-grey);
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 14px;
+}
+.header-top .container { display: flex; justify-content: space-between; align-items: center; }
+.header-top-left, .header-top-right, .social-links { display: flex; align-items: center; gap: 20px; }
+.contact-item { display: flex; align-items: center; gap: 8px; }
+.contact-item i { color: var(--text-color-light); }
+.search-form { display: flex; }
+.search-form input { padding: 6px 10px; border: 1px solid #ccc; border-right: none; border-radius: 4px 0 0 4px; outline: none; }
+.search-form button { padding: 6px 12px; background-color: var(--color-primary-red); color: white; border: none; border-radius: 0 4px 4px 0; cursor: pointer; }
+.social-links a { font-size: 18px; color: var(--text-color-dark); transition: color 0.3s; }
+.social-links a:hover { color: var(--color-primary-red); }
+
+/* --- 2. HEADER MAIN --- */
+.header-main {
+    padding: 20px 0;
+    position: relative;
+    overflow: hidden;
+    /* --- ĐÃ TỐI ƯU --- */
+    /* Gộp 2 lớp nền lại làm một cho hiệu quả hơn */
+    background: 
+        linear-gradient(to right, rgba(195, 165, 128, 0.8), rgba(237, 224, 207, 0.8)), 
+        url('https://www.toptal.com/designers/subtlepatterns/uploads/paper_fibers.png');
+}
+
+.header-main .container {
+    /* --- ĐÃ SỬA LỖI --- */
+    /* Xóa bỏ định nghĩa trùng lặp, chỉ giữ lại 1 khối duy nhất */
+    display: grid;
+    grid-template-columns: 180px auto 1fr auto;
+    align-items: center;
+    gap: 25px;
+    position: relative; /* Đảm bảo nội dung nằm trên lớp nền */
+    z-index: 1;
+}
+
+.logo-area img { max-width: 200px; display: block; }
+.features-box { background-color: var(--color-teal); color: white; padding: 15px 20px; border-radius: 10px; }
+.features-box ul { list-style: none; padding: 0; margin: 0; }
+.features-box li { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-weight: 500; }
+.company-info h2 { font-size: 32px; font-weight: 900; color: var(--color-primary-blue); margin: 0 0 5px 0; }
+.company-info h3 { font-size: 14px; font-weight: 900; margin: 0 0 15px 0; }
+.company-info h3 span { color: var(--color-primary-red); font-weight: 700; }
+.company-details p { font-size: 14px; margin: 5px 0; display: flex; align-items: center; gap: 8px; }
+.company-details .text-red { color: var(--color-primary-red); font-weight: 700; }
+.company-details i { color: var(--text-color-light); }
+.product-image-area { position: absolute; bottom: 0; right: 0; z-index: 1; }
+.product-image-area img { max-height: 100%; max-width: 250px; height: auto; display: block; }
+
+/* --- 3. THANH ĐIỀU HƯỚNG STICKY --- */
+#main-nav {
+    background-color: #2c3e50;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+#main-nav .container { display: flex; justify-content: center; align-items: center; position: relative; }
+#main-nav nav ul { list-style: none; display: flex; margin: 0; padding: 0; }
+#main-nav nav ul li a { color: #fff; padding: 10px 20px; font-weight: bold; text-transform: uppercase; font-size: 14px; transition: background-color 0.3s; }
+#main-nav nav ul li a:hover, #main-nav nav ul li a.active { background-color: var(--color-main-blue); border-radius: 5px; }
+#menu-toggle { display: none; }
+
+/* ======================================================= */
+/*                     RESPONSIVE                          */
+/* ======================================================= */
+
+@media (max-width: 1024px) {
+    .header-main .container { grid-template-columns: 1fr 1fr; }
+    .logo-area { grid-column: 1 / 2; }
+    .features-box { grid-column: 2 / 3; grid-row: 1 / 2; }
+    .company-info { grid-column: 1 / 3; grid-row: 2 / 3; text-align: center; }
+    .product-image-area { display: none; }
+}
+
+@media (max-width: 768px) {
+    .header-top .container { flex-direction: column; gap: 10px; }
+    .header-main .container { grid-template-columns: 1fr; text-align: center; }
+    .company-info, .features-box, .logo-area { grid-column: auto; grid-row: auto; }
+    .features-box, .logo-area, .company-details p { margin: 0 auto; justify-content: center; }
+    .features-box { margin-bottom: 20px; }
+
+    #main-nav .container { justify-content: flex-end; }
+    #main-nav nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: #34495e; }
+    #main-nav nav.active { display: block; }
+    #main-nav nav ul { flex-direction: column; }
+    #main-nav nav ul li a { text-align: center; border-bottom: 1px solid #4a627a; padding: 15px; }
+    #menu-toggle { display: block; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+}
+/* CÁC PHẦN THÂN TRANG */
+.section-padding { padding: 60px 0; }
+.bg-light { background-color: #f9f9f9; }
+.section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--text-color-dark);
+    margin-bottom: 40px;
+}
+.btn {
+    display: inline-block;
+    background-color: var(--color-main-blue);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+.btn:hover { background-color: #3498db; }
+
+/* === KHỐI CSS ĐÃ SỬA LẠI HOÀN CHỈNH === */
+
+#hero {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    color: #fff;
+    /* Giữ lại aspect-ratio, đây là cách làm đúng để khóa tỉ lệ */
+    aspect-ratio: 1920 / 785; /* Khuyến nghị dùng tỉ lệ chuẩn như 16/9, 21/9 hoặc 4/3 */
+    /* Hoặc giữ nguyên tỉ lệ của bạn: aspect-ratio: 1920 / 700; */
+}
+
+/* Lớp phủ tối giúp chữ dễ đọc hơn */
+#hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+}
+
+.slides-container {
+    display: flex;
+    width: 300%; /* Tổng chiều rộng 3 slide */
+    height: 100%; /* SỬA LẠI: Luôn cao bằng thẻ cha #hero */
+    transition: transform 0.7s ease-in-out;
+}
+
+.slide {
+    /* SỬA LẠI: Mỗi slide chiếm 1/3 của container 300% */
+    width: 33.3333%; 
+    height: 100%; /* SỬA LẠI: Luôn cao bằng thẻ cha */
+    flex-shrink: 0;
+}
+
+.slide img {
+    width: 100%;
+    /* SỬA LẠI: Chiều cao phải là 100% để tuân theo tỉ lệ của #hero */
+    height: 100%; 
+    /* SỬA LẠI: Dùng 'cover' để ảnh lấp đầy khung mà không bị méo */
+    object-fit: contain; 
+    display: block;
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    text-align: center;
+    width: 90%;
+    max-width: 800px;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+}
+
+/* Các phần còn lại giữ nguyên */
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.slider-nav:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.slider-nav.prev { left: 20px; }
+.slider-nav.next { right: 20px; }
+
+.slider-dots {
+    position: absolute;
+    bottom: 25px; /* Tăng khoảng cách với cạnh dưới một chút */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    align-items: center; /* Căn các item vào giữa theo chiều dọc */
+    gap: 12px; /* Tăng khoảng cách giữa các chấm */
+}
+
+/* Kiểu cho các chấm không được chọn */
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.5); /* Thêm viền mờ */
+    padding: 0; /* Bỏ padding mặc định của button */
+    transition: all 0.4s ease; /* Hiệu ứng chuyển động mượt mà */
+}
+
+/* Kiểu cho chấm đang được chọn (active) */
+.dot.active {
+    background-color: #fff;
+    width: 30px; /* Chuyển thành hình con nhộng/thanh ngang */
+    border-radius: 5px; /* Bo góc nhẹ */
+}
+
+/* =================================================================== */
+/*             PHẦN GIỚI THIỆU (ABOUT US SECTION)                     */
+/* =================================================================== */
+
+/* --- 1. ĐỊNH DẠNG CHUNG VÀ KHỐI TIÊU ĐỀ --- */
+#about.bg-light { background-color: #f8f9fa; }
+#about .section-subtitle { text-align: center; color: var(--color-primary-red); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1.5px; margin-bottom: 8px; }
+#about .section-title { color: var(--color-primary-blue); margin-top: 0; margin-bottom: 30px; text-align: center; }
+#about .section-title::after { background-color: var(--color-primary-red); left: 50%; transform: translateX(-50%); }
+.about-intro { text-align: center; max-width: 800px; margin: 0 auto 60px auto; font-size: 1.15rem; line-height: 1.8; color: var(--text-color-light); }
+
+/* --- 2. LAYOUT CHÍNH SỬ DỤNG CSS GRID --- */
+.about-content { display: grid; grid-template-columns: 45fr 55fr; gap: 50px; align-items: center; }
+.about-image-wrapper { grid-column: 1 / 2; grid-row: 1 / 2; position: relative; aspect-ratio: 3 / 4; }
+.about-text { grid-column: 2 / 3; grid-row: 1 / 2; }
+.about-core-values { grid-column: 1 / 3; grid-row: 2 / 2; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; list-style: none; padding: 0; margin-top: 60px; }
+#about .btn { grid-column: 1 / 3; grid-row: 3 / 3; justify-self: center; margin-top: 20px; background-color: var(--color-primary-red); padding: 15px 35px; font-size: 1rem; text-decoration: none; color: #fff; font-weight: bold; border-radius: 5px; transition: all 0.3s ease; }
+#about .btn:hover { background-color: var(--color-primary-blue); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3); }
+
+/* --- 3. ĐỊNH DẠNG CHI TIẾT CÁC THÀNH PHẦN --- */
+.about-image { width: 100%; height: 100%; }
+.about-image img { width: 100%; height: 100%; border-radius: 8px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); object-fit: cover; }
+.about-experience-box { position: absolute; bottom: 20px; left: -30px; background: linear-gradient(135deg, var(--color-primary-red), #c12727); color: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 10px 20px rgba(211, 47, 47, 0.3); width: 150px; }
+.experience-number { font-size: 3rem; font-weight: 700; line-height: 1; }
+.experience-text { font-size: 0.8rem; font-weight: 500; text-transform: uppercase; }
+.about-text h3 { font-size: 1.8rem; color: var(--color-text-dark); font-weight: 700; margin-bottom: 15px; }
+.about-text p { color: var(--text-color-light); margin-bottom: 0; }
+.about-core-values li { display: flex; align-items: flex-start; gap: 20px; }
+.about-core-values li i { font-size: 2rem; color: var(--color-primary-red); margin-top: 5px; width: 40px; text-align: center; }
+.about-core-values h4 { font-size: 1.2rem; color: var(--color-primary-blue); margin: 0 0 5px 0; }
+.about-core-values p { margin-bottom: 0; font-size: 1rem; color: var(--text-color-light); }
+
+/* =================================================================== */
+/*           RESPONSIVE - ĐIỀU CHỈNH GIAO DIỆN                      */
+/* =================================================================== */
+
+/* Cho màn hình máy tính bảng (dưới 992px) */
+@media (max-width: 992px) {
+  .about-content { grid-template-columns: 1fr; gap: 30px; }
+  .about-image-wrapper, .about-text, .about-core-values, #about .btn { grid-column: 1 / 2; grid-row: auto; }
+  .about-core-values { margin-top: 40px; }
+}
+
+/* Cho màn hình điện thoại (dưới 768px) */
+@media (max-width: 768px) {
+  .about-core-values { grid-template-columns: 1fr; }
+
+  .about-experience-box { left: 15px; bottom: 15px; }
+}
+
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.product-card { background-color: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); overflow: hidden; text-align: center; transition: transform 0.3s ease; }
+.product-card:hover { transform: translateY(-5px); }
+.product-card img { width: 100%; height: 200px; object-fit: cover; }
+.product-card h3 { margin: 20px; color: var(--text-color-dark); }
+.product-card p { padding: 0 20px 20px; }
+
+.features-grid-modern { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: center; }
+.feature-item-modern i { font-size: 3rem; color: var(--color-main-blue); margin-bottom: 1rem; }
+
+/* =======================================
+   CSS cho khu vực xưởng sản xuất (Nâng cao)
+   ======================================= */
+   .factory-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px; /* Tăng khoảng cách một chút */
+    /* max-width: 90%;
+    margin: 0 auto; */
+}
+
+.gallery-item {
+    overflow: hidden; /* Đảm bảo ảnh không bị tràn ra ngoài khi có hiệu ứng */
+    border-radius: 8px; /* Bo góc mềm mại */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ nhàng */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng chuyển động mượt mà */
+    aspect-ratio: 1 / 1;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05); /* Phóng to nhẹ khi di chuột vào */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Bóng đổ đậm hơn khi di chuột vào */
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* =======================================
+   CSS cho Responsive (Giữ nguyên)
+   ======================================= */
+@media (max-width: 768px) {
+    .factory-gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .factory-gallery {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ======================================================= */
+/*        WHY OLG        */
+/* ======================================================= */
+
+#why-olg { background-color: #33475b; color: #fff; }
+
+/* --- TIÊU ĐỀ --- */
+#why-olg .section-header { margin-bottom: 70px; }
+#why-olg .section-title { color: #fff; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 15px; }
+#why-olg .section-title::after { display: none; } 
+#why-olg .section-intro { color: rgba(255, 255, 255, 0.85); max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8; }
+
+/* --- LƯỚI CÁC TÍNH NĂNG --- */
+.why-olg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 50px; }
+.why-olg-item { display: flex; align-items: flex-start; gap: 25px; }
+
+/* --- ICON --- */
+.item-icon { flex-shrink: 0; width: 90px; height: 90px; background-color: #fff; border-radius: 12px; display: flex; justify-content: center; align-items: center; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); border: 3px solid rgba(255, 255, 255, 0.5); outline: 1px solid rgba(255, 255, 255, 0.7); outline-offset: 3px; }
+.item-icon i { font-size: 2.5rem; color: #33475b; }
+
+/* --- NỘI DUNG TEXT --- */
+.item-content h3 { font-size: 1.3rem; margin-top: 5px; margin-bottom: 12px; color: #fff; font-weight: 600; }
+.item-content p { margin: 0; color: rgba(255, 255, 255, 0.8); line-height: 1.7; font-size: 0.95rem; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 992px) {
+  .why-olg-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  #why-olg .section-title { font-size: 2rem; }
+  .why-olg-grid { grid-template-columns: 1fr; }
+  .why-olg-item { align-items: center; }
+}
+
+.contact-form-modern { max-width: 600px; margin: 0 auto; }
+.contact-form-modern input, .contact-form-modern textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+
+/* ======================================================= */
+/*             FOOTER                                       */
+/* ======================================================= */
+
+.site-footer {
+    background-color: #33475b; /* Màu Xanh Thép Đậm */
+    color: rgba(255, 255, 255, 0.7);
+    padding: 80px 0 0 0;
+    font-size: 0.95rem;
+}
+
+/* --- KHU VỰC 3 CỘT CHÍNH --- */
+.footer-top {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    padding-bottom: 50px;
+}
+
+/* --- TIÊU ĐỀ CÁC CỘT (FANPAGE, MAP) --- */
+.footer-widget .widget-title {
+    font-size: 1.1rem;
+    color: #fff; /* Giữ màu chữ trắng */
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+/* --- CỘT 1: THÔNG TIN CÔNG TY --- */
+.footer-logo img {
+    max-width: 200px;
+    margin-bottom: 0px; /* GIẢM KHOẢNG CÁCH */
+    /* DÙNG HIỆU ỨNG HÀO QUANG ĐỂ GIỮ MÀU GỐC */
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.6));
+}
+
+.widget-description {
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.info-list { list-style: none; padding: 0; margin: 0; }
+.info-list li { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; }
+.info-list i { color: var(--color-primary-red, #e74c3c); margin-top: 5px; }
+.info-list a { color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.3s ease; }
+.info-list a:hover { color: #fff; }
+
+/* --- CỘT 2 & 3: FANPAGE VÀ MAP --- */
+.facebook-embed iframe,
+.map-embed iframe { width: 90%; height: 220px; border-radius: 5px; border: none; }
+
+/* --- KHU VỰC BẢN QUYỀN (DƯỚI CÙNG) --- */
+.footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 25px 0; text-align: center; }
+.footer-bottom p { margin: 0; font-size: 0.9rem; }
+.footer-bottom strong { color: #fff; font-weight: 500; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 992px) {
+    .footer-top { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+    .site-footer { padding-top: 60px; }
+    .footer-top { grid-template-columns: 1fr; }
+}
+
+/* ======================================================= */
+/*        CSS CHO CỤM NÚT LIÊN HỆ STICKY (ĐÃ SỬA LỖI)       */
+/* ======================================================= */
+
+.sticky-contact-bar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contact-btn {
+    width: 50px;
+    height: 50px;
+    background-color: #1877f2;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.5); 
+}
+
+.contact-btn:hover {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.contact-btn.zalo-btn { background-color: #0068ff; }
+.contact-btn.phone-btn { background-color: #0068ff; }
+.contact-btn.messenger-btn { background-color: #0068ff; }
+
+.scroll-top-btn {
+    background-color: #888;
+    border-radius: 8px;
+    display: none;
+}
+.scroll-top-btn:hover { background-color: #666; }
+
+.zalo-btn img {
+    width: 60%;
+    height: auto;
+}
+
+/* ======================================================= */
+/*    HIỆU ỨNG GỌI ĐIỆN (ÁP DỤNG CHO CẢ 3 NÚT)            */
+/* ======================================================= */
+
+/* --- 1. ĐỊNH NGHĨA ANIMATION (Không đổi) --- */
+
+@keyframes heartbeat {
+    0%   { transform: scale(1); }
+    10%  { transform: scale(1.1); }
+    20%  { transform: scale(1); }
+    30%  { transform: scale(1.1); }
+    40%  { transform: scale(1); }
+    100% { transform: scale(1); }
+  }
+  
+  @keyframes stable-pulse {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    70% { transform: scale(2); opacity: 0; }
+    100% { opacity: 0; }
+  }
+  
+  /* --- 2. ÁP DỤNG ANIMATION VÀO CÁC NÚT --- */
+  
+  /* Áp dụng hiệu ứng Rung Tại Chỗ cho cả 3 nút */
+  .contact-btn.zalo-btn,
+  .contact-btn.phone-btn,
+  .contact-btn.messenger-btn { /* <-- THÊM NÚT MESSENGER VÀO ĐÂY */
+      animation: heartbeat 2.5s infinite ease-in-out;
+  }
+  
+  /* Tạo vòng sóng cho cả 3 nút */
+  .contact-btn.zalo-btn::before,
+  .contact-btn.phone-btn::before,
+  .contact-btn.messenger-btn::before { /* <-- THÊM NÚT MESSENGER VÀO ĐÂY */
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background-color: #0068ff; 
+      animation: stable-pulse 2.5s infinite;
+      z-index: -1;
+  }
+  
+  /* --- 3. TẠO HIỆU ỨNG SO LE 3 BƯỚC MƯỢT MÀ --- */
+  /* Nút Zalo bắt đầu ngay lập tức */
+  .contact-btn.zalo-btn,
+  .contact-btn.zalo-btn::before {
+      animation-delay: 0s;
+  }
+  
+  /* Nút Điện thoại bắt đầu sau 1/3 thời gian */
+  .contact-btn.phone-btn,
+  .contact-btn.phone-btn::before {
+      animation-delay: 0.83s; /* 2.5s / 3 */
+  }
+  
+  /* Nút Messenger bắt đầu sau 2/3 thời gian */
+  .contact-btn.messenger-btn,
+  .contact-btn.messenger-btn::before {
+      animation-delay: 1.66s; /* (2.5s / 3) * 2 */
+  }
+  
+  /* --- 4. TẠM DỪNG HIỆU ỨNG KHI HOVER --- */
+  /* Áp dụng cho tất cả các nút có class .contact-btn */
+  .contact-btn:hover {
+      animation-play-state: paused !important;
+  }
+  .contact-btn:hover::before {
+      animation-play-state: paused !important;
+  }
