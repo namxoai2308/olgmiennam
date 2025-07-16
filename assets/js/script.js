@@ -1,4 +1,4 @@
-// Chờ toàn bộ HTML tải xong rồi mới chạy JavaScript để tránh lỗi
+// Chờ toàn bộ HTML tải xong rồi mới chạy JavaScript
 document.addEventListener('DOMContentLoaded', function() {
 
     // ==========================================================
@@ -6,62 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================================
     const mainNav = document.getElementById('main-nav');
     const menuToggle = document.getElementById('menu-toggle');
-    
     if (mainNav && menuToggle) {
         const navContainer = mainNav.querySelector('nav');
-        const navLinks = navContainer.querySelectorAll('a');
-        const sections = document.querySelectorAll('section[id]');
-
-        // 1.1: Xử lý bật/tắt Menu trên Mobile
         menuToggle.addEventListener('click', () => {
             navContainer.classList.toggle('active');
         });
-
-        // 1.2: Xử lý Cuộn Mượt (Smooth Scrolling) khi nhấn vào link menu
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                const targetId = this.getAttribute('href');
-                // Chỉ xử lý với các link nội bộ (bắt đầu bằng #)
-                if (targetId && targetId.startsWith('#')) {
-                    e.preventDefault();
-                    const targetSection = document.querySelector(targetId);
-                    
-                    if (targetSection) {
-                        const offsetTop = targetSection.offsetTop - mainNav.offsetHeight;
-                        window.scrollTo({
-                            top: offsetTop,
-                            behavior: 'smooth'
-                        });
-                        // Tự động đóng menu sau khi chọn trên mobile
-                        if (navContainer.classList.contains('active')) {
-                            navContainer.classList.remove('active');
-                        }
-                    }
-                }
-            });
-        });
-
-        // 1.3: Đánh dấu link active khi cuộn trang
-        const activateNavLinkOnScroll = () => {
-            let currentSectionId = '';
-            const navHeight = mainNav.offsetHeight;
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - navHeight - 50; // Thêm 50px offset cho chính xác hơn
-                if (window.pageYOffset >= sectionTop) {
-                    currentSectionId = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + currentSectionId) {
-                    link.classList.add('active');
-                }
-            });
-        };
-        // Lắng nghe sự kiện cuộn trang
-        window.addEventListener('scroll', activateNavLinkOnScroll);
+        // (Thêm các xử lý khác cho menu nếu bạn cần)
     }
 
     // ==========================================================
@@ -69,16 +19,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================================
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     if (scrollTopBtn) {
-        // Hiện/ẩn nút khi cuộn
         window.addEventListener('scroll', () => {
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
                 scrollTopBtn.style.display = "flex";
             } else {
                 scrollTopBtn.style.display = "none";
             }
         });
-
-        // Cuộn mượt lên đầu trang khi nhấn
         scrollTopBtn.addEventListener('click', (e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -86,9 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==========================================================
-    // --- PHẦN 3: XỬ LÝ HERO SLIDER (BANNER) ---
+    // --- PHẦN 3: XỬ LÝ HERO SLIDER (PHIÊN BẢN CHỮ TRƯỢT) ---
     // ==========================================================
-    const sliderWrapper = document.querySelector('#hero'); // Tìm đến khối lớn nhất của slider
+    const sliderWrapper = document.querySelector('#hero');
     if (sliderWrapper) {
         const slidesContainer = sliderWrapper.querySelector('.slides-container');
         const nextBtn = sliderWrapper.querySelector('.slider-nav.next');
@@ -106,10 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const dot = document.createElement('button');
                 dot.classList.add('dot');
                 dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-                dot.addEventListener('click', () => {
-                    goToSlide(i);
-                    resetAutoPlay();
-                });
+                dot.addEventListener('click', () => goToSlide(i));
                 dotsContainer.appendChild(dot);
             }
             const dots = dotsContainer.querySelectorAll('.dot');
@@ -117,55 +61,107 @@ document.addEventListener('DOMContentLoaded', function() {
             // Hàm chính để chuyển slide
             function goToSlide(index) {
                 slidesContainer.style.transform = `translateX(-${index * (100 / slideCount)}%)`;
+                
+                slides.forEach(slide => slide.classList.remove('active'));
                 dots.forEach(dot => dot.classList.remove('active'));
+
+                slides[index].classList.add('active');
                 dots[index].classList.add('active');
+
                 currentIndex = index;
+                resetAutoPlay();
             }
 
-            // Hàm tự động chạy
+            function showNextSlide() {
+                const nextIndex = (currentIndex + 1) % slideCount;
+                goToSlide(nextIndex);
+            }
+
+            function showPrevSlide() {
+                const prevIndex = (currentIndex - 1 + slideCount) % slideCount;
+                goToSlide(prevIndex);
+            }
+
             function startAutoPlay() {
-                autoPlayInterval = setInterval(() => {
-                    currentIndex = (currentIndex + 1) % slideCount;
-                    goToSlide(currentIndex);
-                }, 5000); // Chuyển slide mỗi 5 giây
+                autoPlayInterval = setInterval(showNextSlide, 5000);
             }
 
-            // Hàm reset tự động chạy khi người dùng tương tác
             function resetAutoPlay() {
                 clearInterval(autoPlayInterval);
                 startAutoPlay();
             }
             
             // Gán sự kiện cho các nút
-            nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % slideCount;
-                goToSlide(currentIndex);
-                resetAutoPlay();
-            });
-
-            prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + slideCount) % slideCount;
-                goToSlide(currentIndex);
-                resetAutoPlay();
-            });
+            nextBtn.addEventListener('click', showNextSlide);
+            prevBtn.addEventListener('click', showPrevSlide);
             
             // Khởi tạo slider
             goToSlide(0);
-            startAutoPlay();
         }
     }
     
     // ==========================================================
     // --- PHẦN 4: XỬ LÝ FORM LIÊN HỆ ---
     // ==========================================================
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Ngăn trình duyệt tải lại trang
-            // Bạn có thể thay thế alert bằng một thông báo đẹp hơn
-            alert('Cảm ơn bạn! Yêu cầu của bạn đã được gửi. Chúng tôi sẽ liên hệ lại sớm nhất có thể.');
-            contactForm.reset(); // Xóa các nội dung đã nhập trong form
-        });
+// ==========================================================
+// --- PHẦN 4: XỬ LÝ FORM LIÊN HỆ BẰNG AJAX ---
+// ==========================================================
+const contactForm = document.getElementById('contact-form');
+const successModal = document.getElementById('success-modal');
+
+if (contactForm && successModal) {
+    const closeModalBtn = successModal.querySelector('.modal-close-btn');
+
+    // Hàm để mở modal
+    function openModal() {
+        successModal.classList.add('active');
     }
+
+    // Hàm để đóng modal
+    function closeModal() {
+        successModal.classList.remove('active');
+    }
+
+    // Gán sự kiện cho nút đóng và lớp phủ
+    closeModalBtn.addEventListener('click', closeModal);
+    successModal.addEventListener('click', function(event) {
+        // Chỉ đóng khi nhấn vào lớp phủ, không phải nội dung modal
+        if (event.target === successModal) {
+            closeModal();
+        }
+    });
+
+    // Xử lý khi gửi form
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.innerHTML;
+        
+        submitButton.disabled = true;
+        submitButton.innerHTML = 'Đang gửi...';
+
+        fetch(this.action, {
+            method: this.method,
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                // Gửi thành công: Mở modal và reset form
+                openModal();
+                this.reset();
+            } else {
+                // Có lỗi: Hiển thị thông báo lỗi (bạn có thể tạo một modal lỗi riêng nếu muốn)
+                alert("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
+            }
+        }).catch(error => {
+            alert("Lỗi mạng! Không thể gửi yêu cầu.");
+        }).finally(() => {
+            // Kích hoạt lại nút bấm
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalButtonText;
+        });
+    });
+}
 
 });
